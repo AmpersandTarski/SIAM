@@ -4,15 +4,13 @@ CONTEXT "Persona Interfaces" IN ENGLISH
 VIEW Persona: Persona DEFAULT
 { "party org"  : pParty;orgAbbrName
 , ":"          : TXT ":"
-, "party first": pActor;personFirstName
-, " "          : TXT " "
-, "party last" : pActor;personLastName
+, "party name" : pActor;personRef
 } ENDVIEW
 
 POPULATION Role CONTAINS [ "PersonaMgr" ]
 
 INTERFACE "Persona" FOR "PersonaMgr" : I[Persona] CRUD COLS
-   [ "Party"    : pParty cRUd
+   [ "Organization" : pParty cRUd
    , "Actor"    : pActor cRUd
    , "Relation" : pRelation cRUd
    , "Account"  : accPersona~ cRud
