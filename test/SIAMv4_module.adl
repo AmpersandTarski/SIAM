@@ -14,7 +14,7 @@ CONTEXT "SIAMv4_module"
    INCLUDE "./SIAM/SIAM_Basics.adl"              -- **Core functionality**: Accounts, Sessions, Roles, etc.
 
 --[Optionally INCLUDE interface(s) for Developers]
-   INCLUDE "./SIAM/SIAM_Developer.ifc"
+   INCLUDE "./SIAM/SIAM_Developer.ifc" --# [ "MainDevIfc" ]
 
 --[Optionally INCLUDE Account registration and management]
 -- INCLUDE "./SIAM/SIAM_AccountManagement.ifc"   -- Set if INTERFACEs for managing Accounts
