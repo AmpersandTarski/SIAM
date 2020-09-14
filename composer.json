@@ -1,0 +1,13 @@
+{
+    "name": "ampersandtarski/siam",
+    "description": "Ampersand module for Sessions, Identity and Access Management (SIAM). Contains ADL scripts that can be reused.",
+    "type": "library",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Rieks Joosten",
+            "email": "rieksjoosten@gmail.com"
+        }
+    ],
+    "require": {}
+}
