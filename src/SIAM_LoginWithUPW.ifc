@@ -1,4 +1,4 @@
-CONTEXT "Login" IN ENGLISH LATEX
+CONTEXT "Login" IN ENGLISH
 -----------------------------------------------------------
 {- This file contains an INTERFACE by which a user can:
 - Login (with a username and password)
@@ -14,34 +14,27 @@ INCLUDE "./SIAM_RegisterWithUPW.adl"     -- Extension that registers not-yet exi
 INCLUDE "./SIAM_RegisterWithUPW.ifc"     -- Interface for RegisterWithUPW Extension
 --#ENDIF
 
-POPULATION LoginMessage CONTAINS [ "You are currently logged in as " ]           REPRESENT LoginMessage TYPE ALPHANUMERIC
-POPULATION PopoverText  CONTAINS [ "Click this button to create your account" ]  REPRESENT PopoverText  TYPE ALPHANUMERIC
---POPULATION isInvisible CONTAINS [ ("Login", "Login") ]
 INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
-   [ "Login": I-sessionAccRegForm;sessionAccRegForm~ cRud BOX <TABLE hideNoRecords>
+--$This section allows users to login or register themselves
+   [ "Login bar": I-sessionAccRegForm;sessionAccRegForm~ cRud BOX <TABLE hideOnNoRecords>
       [ "Userid": loginUserid cRUd
       , "Password": loginPassword cRUd -- crUd is needed for Passwords
-
-      --$Button that allows user to login
-      , "Login": I cRud BOX <PROPBUTTON> 
-         [ "property": sessionLoginReq cRUd
+      , " ": I cRud BOX <PROPBUTTON> 
+         [ "label": TXT "Login"
+         , "property": sessionLoginReq cRUd
          , "disabled": I - (loginUserid;loginUserid~ /\ loginPassword;loginPassword~) cRud
          ]
-
 --#IFNOT NoRegistrationWithLogin
-      --$Button that allows account-registration in anonymous sessions      
-      , "   ": I-sessionLoginAssist cRud BOX <RAW> -- Only allow registration when we're not trying to login.
-         [ "Register": I BOX <PROPBUTTON> 
-            [ "property": sessionCreateARFReq cRUd
---          , "hide": I /\ sessionAccRegForm;sessionAccRegForm~ cRud
-            , "disabled": I /\ sessionAccRegForm;sessionAccRegForm~ cRud
-            , "popovertext": V;"Click this button to create your account"[PopoverText] cRud
-            ]
+      , "  ": I-sessionLoginAssist cRud BOX <PROPBUTTON> 
+         [ "label": TXT "Register"
+         , "property": sessionCreateAccRegFormReq cRUd
+         , "disabled": I /\ sessionAccRegForm;sessionAccRegForm~ cRud
+         , "popovertext": TXT "Create a new account"
          ]
 --#ENDIF
       ]
 --#IFNOT NoRegistrationWithLogin
-   , "Register": sessionIsAnon;sessionAccRegForm INTERFACE "Register"
+   , "Registration": sessionAccRegForm INTERFACE "Register"
 --#ENDIF
    ]
 
