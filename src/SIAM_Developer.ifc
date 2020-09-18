@@ -6,7 +6,7 @@ CONTEXT "DeveloperIfc" IN ENGLISH
 -- This is *the* entry point for developers. It should only be compiled for the TText test application itself.
 -- To allow other applications to provide their own developer's entry point, this section is not compiled by default.
 
-INTERFACE "[Dev]" FOR Developer: "_SESSION"[SESSION] cRud TABS
+INTERFACE "[Dev]" FOR Developer: "_SESSION"[SESSION] cRud BOX <TABS>
 [ "SESSION": I INTERFACE "[SESSION]"
 , "SIAMv4":  I INTERFACE "[SIAMv4_Developer]"
 ]
@@ -58,9 +58,8 @@ POPULATION Yes CONTAINS [ "Yes" ]
 VIEW PrsYesNo: Person       { "Yes": V[Person*Yes]       } ENDVIEW
 VIEW OrgYesNo: Organization { "Yes": V[Organization*Yes] } ENDVIEW
 
-
 POPULATION isInvisible CONTAINS [ ("[SIAMv4_Developer]", "[SIAMv4_Developer]") ]
-INTERFACE "[SIAMv4_Developer]" FOR Developer: "_SESSION" cRud TABS
+INTERFACE "[SIAMv4_Developer]" FOR Developer: "_SESSION" cRud BOX <TABS>
 [ "Accounts": V[SESSION*Account] cRud BOX <TABLE sortable>
    [ "id": I[Account] cRud <AccountId>
    , "Userid": accUserid cRud
