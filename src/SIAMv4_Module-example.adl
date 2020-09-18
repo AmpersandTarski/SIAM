@@ -6,7 +6,7 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 --[Specifying the identity of the system itself, and some attributes]
 -- POPULATION isOwnedBy  CONTAINS [ ("I_Am","<Party>")   ] -- The name of the Party that (supposedly) owns the system.
 -- POPULATION actorRef   CONTAINS [ ("I_Am","<ActorRef>")] -- The name that can be used to refer to the system.
--- POPULATION myLogofile CONTAINS [ ("I_Am","<Fileid>"") ] -- id of the file that can be used to show the system's logo.
+-- POPULATION myLogofile CONTAINS [ ("I_Am","<Fileid>") ] -- id of the file that can be used to show the system's logo.
 -- Other attributes may be associated with `I_Am`, for purposes other than SIAM.
 
 --[Always INCLUDE the basics]
@@ -58,6 +58,7 @@ Note: setting the property `accIsActive` will automatically also set `accIsIniti
 --[Set default interfaces for anonymous sessions and user sessions]
 {- ROLE ExecEngine MAINTAINS "Set NavTo interfaces for session"
    RULE "Set NavTo interfaces for session": I[SESSION] |- sessionIfcsSet
+--* CHECK IF YOU NEED TO POPULATE the 'I_Am' relations as well (see lines 7-9 or thereabout) *--
    VIOLATION (TXT "{EX} InsPair;sessionAnonIfc;SESSION;", SRC I, TXT ";NavToIfc;/AnonHome" -- This interface appears when no user has logged in.
              ,TXT "{EX} InsPair;sessionUserIfc;SESSION;", SRC I, TXT ";NavToIfc;/UserHome" --<-- This interface will appear after a succesful login,
              ) --}                                                                            -- but is overridden by `accUserIfc` if that exists.
