@@ -11,7 +11,7 @@ Many things have changed in this version of SIAM, most notably:
 - Parties are entities that have and maintain knowledge. They include Organizations and Persons.
 - Actors are entities that can do things. This includes Persons. 
 - the 'User' refers to the (Actor,Party) pair associated with the Account, and the `Userid` identifies the Account and that pair
-- the system itself is also an Actor, and it is owned by some Party, which is modeled by the (new) notion of 'I_Am'.
+- the system itself is also an Actor, and is modeld with the (new) notion of 'I_Am'. You can thus give the system a name (`actorRef`), and you can have the system owned, all by the now existing default means for actors and parties.
 - The concept `UserID` has been renamed into `Userid`, which results in less errors. Note that `Userid` now explicitly identifies the Account itself (or if you will, the (Actor,Party) pair that the Account is associated with).
 - Code has been refactored such that whenever users want to register/change something, they do that using apprpriate forms
   (e.g. an AccountRegForm, or a LoginForm).
