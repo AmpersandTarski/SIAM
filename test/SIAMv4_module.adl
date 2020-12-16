@@ -4,8 +4,9 @@ CONTEXT "SIAMv4_module"
 --! git@ci.tno.nl:ampersand/ssif.git has the authoratative source of SIAMv4.
 
 --[Specifying the identity of the system itself, and some attributes]
-   POPULATION isOwnedBy  CONTAINS [ ("I_Am","TNO")   ] -- The name of the Party that (supposedly) owns the system.
+   INCLUDE "./SIAM/SIAM_Who_I_Am.adl"               -- Define the Actor that represents this system.
    POPULATION actorRef   CONTAINS [ ("I_Am", "SIAMv4 Test Application") ]
+   POPULATION ownerRef   CONTAINS [ ("I_Am","TNO")   ]
    POPULATION myLogofile CONTAINS [ ("I_Am", "SIAMv4.png") ]
 -- Other attributes may be associated with `I_Am`, for purposes other than SIAM.
 

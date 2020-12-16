@@ -119,18 +119,9 @@ worksFor :: AorP * Party -- The AorP works for, and/or has employers that may wo
 {- the system of which SIAM becomes part is an Actor that is owned by some Party.
 Sometimes the system needs to know who that Party is, e.g. to show its logo on a webpage,
 or to distinguish between Actors that do and that do not work on its owners behalf.
-The application's loader file can statically populate these relations.-}
-
-CLASSIFY I_Am ISA Actor    CONCEPT I_Am "Actor that refers to the system itself"
-
-RULE "There can only be one I_Am": V[I_Am] = I[I_Am]
-POPULATION I_Am CONTAINS [ "I_Am" ] -- This is what I_Am
-
-   myLogofile      :: I_Am * Fileid       [UNI]  -- id of the file that can be used to show the system's logo.
--- myIssuerURL     :: I_Am * URL          [UNI]  -- URL where attestations can be issued
--- myVerifierURL   :: I_Am * URL          [UNI]  -- URL where attestations can be consumed/verified
--- myHolderURL     :: I_Am * URL          [UNI]  -- URL where ??? (it is the third role, so ...)
--- myDIDPairRegistrationURL :: I_Am * URL [UNI]  -- URL where DIDPair registration invitations can be handled
+To this end, the concept `I_Am` is introduced, which ISA `Actor`.
+Details can be found in the file: "SIAM_Who_I_Am.adl".
+The idea is that an application's loader file statically populates the appropriate relations.-}
 
 --[Accounts: basic attributes]-------------------------------------------------------------
 CLASSIFY  Userid ISA IdentRef
