@@ -66,7 +66,7 @@ The most important new features/concepts/relations:
     In future, other common person-attributes can be added here.
 
 - Support for 'PersonRef's, i.e. textstrings that refer to a person.
-  Some use-cases require Accounts to refer to Person-objects (as in `accPerson`), whereas
+  Some use-cases require Accounts to refer to Person-objects (as in `accActor`), whereas
   other use-cases require Accounts to just refer to a Person (his name).
   This module implements
   - minimal support for person refs, by `accPersonRef[Account*PersonRef]` (in SIAM_PersonRefs.adl)

@@ -5,7 +5,7 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 
 --[Specifying the identity of the system itself, and some attributes]
 -- INCLUDE "%path_to_siam_module%/SIAM_Who_I_Am.adl"           -- Define the Actor that represents this system.
--- POPULATION ownerRef   CONTAINS [ ("I_Am","<Party>")   ]     -- The name of the Party that (supposedly) owns the system.
+-- POPULATION ownerRef   CONTAINS [ ("I_Am","<PartyRef>")]     -- The name of the Party that (supposedly) owns the system.
 -- POPULATION actorRef   CONTAINS [ ("I_Am","<ActorRef>")]     -- The name that can be used to refer to the system.
 -- POPULATION myLogofile CONTAINS [ ("I_Am","<Fileid>") ]      -- id of the file that can be used to show the system's logo.
 -- Other attributes may be associated with `I_Am`, for purposes other than SIAM.
@@ -15,7 +15,7 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
    INCLUDE "%path_to_siam_module%/SIAM_Basics.adl"             -- This is the **Core functionality**: Accounts, Sessions, Roles, etc.
 
 --[Optionally INCLUDE interface(s) for Developers]
-   INCLUDE "%path_to_siam_module%/SIAM_Developer.ifc"          -- Ifc for inspecting SESSION, Accounts, Parties, Actors, Persons, Organizations and Roles.
+   INCLUDE "%path_to_siam_module%/SIAM_Developer.ifc" --# [ "NoMainDevIfc" ]          -- Ifc for inspecting SESSION, Accounts, Parties, Actors, Persons, Organizations and Roles.
 
 --[Optionally INCLUDE Account registration and management]
 -- INCLUDE "%path_to_siam_module%/SIAM_AccountRegUsingForm.adl"-- Create Account for a User (=Actor/Party pair) based on filling in a Form.
@@ -44,6 +44,11 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 -- INCLUDE "%path_to_siam_module%/SIAM_Persons.ifc"            -- Interface for managing Person objects.
 
 --[Examples of possibly useful RULEs that may be uncommented and adjusted as necessary]
+
+--[INJectivity of Ref-names]
+   RULE "`partyRef` must identify a Party":  partyRef;partyRef~ |- I[Party]
+   RULE "`actorRef` must identify an Actor": actorRef;actorRef~ |- I[Actor]
+
 --[Account initialization]--
 {- Creating an account (e.g. when importing through an Excel file) does not make it usable immediately.
 For example, its property `accIsActive` must be set before it can be used to login with.

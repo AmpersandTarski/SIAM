@@ -81,6 +81,7 @@ With respect to roles, the following ideas apply:
 CLASSIFY Party, Actor ISA AorP -- We need this concept to satisfy type-checker constraints
 CLASSIFY PartyRef, ActorRef ISA IdentRef
 
+-- Note that `partyRef` and `actorRef` are **NOT** INJ because applications that use SIAM cannot 'undo' that constraint.
 partyRef  :: Party * PartyRef [UNI] -- The human readable name/identifier to refer to the Party
 actorRef  :: Actor * ActorRef [UNI] -- The human readable name/identifier to refer to the Actor
 
@@ -97,7 +98,7 @@ isOwnedBy :: AorP  * Party    [UNI] -- The AorP is owned (=completely controlled
 
 ROLE ExecEngine MAINTAINS "Setting default value for `ownerRef` (from specified owner)"
 RULE "Setting default value for `ownerRef` (from specified owner)":
-   (I[AorP]-ownerRef;ownerRef~);isOwnedBy;partyRef;I[IdentRef] |- ownerRef
+   (I[AorP]-ownerRef;ownerRef~);isOwnedBy;partyRef |- ownerRef
 VIOLATION (TXT "{EX} InsPair;ownerRef;Actor;", SRC I, TXT ";PartyRef;", TGT I)
 
 ROLE ExecEngine MAINTAINS "Setting default value for `isOwnedBy` (from specified `ownerRef`)"

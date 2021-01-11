@@ -36,7 +36,7 @@ One purpose of such attributes is to configure the context of a session
 (by (de)populating the 'session variables' that define such contexts).
 The session context (session-variables) allow us to personalize the way
 that a user is given access to the system.
-Examples of session variables are: `sessionPerson`, `sessionAllowedRoles`.
+Examples of session variables are: `sessionActor`, `sessionAllowedRoles`.
 
 With respect to roles, the following ideas apply:
 
