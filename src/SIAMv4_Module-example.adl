@@ -36,18 +36,31 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 -- INCLUDE "%path_to_siam_module%/SIAM_LoginWithUID.ifc"       -- Interface: UID Login interface for use by non-developers.
 
 --[Optionally INCLUDE extensions for handling Organizations]
--- INCLUDE "%path_to_siam_module%/SIAM_Organizations.adl"      -- Extension that implements Organizations (as a Party).
+   INCLUDE "%path_to_siam_module%/SIAM_Organizations.adl"      -- Extension that implements Organizations (as a Party).
 -- INCLUDE "%path_to_siam_module%/SIAM_Organizations.ifc"      -- Interfaces for managing Organization objects.
 
 --[Optionally INCLUDE extensions for handling Persons]
--- INCLUDE "%path_to_siam_module%/SIAM_Persons.adl"            -- Extension that implements Person objects (as Parties AND Actors).
--- INCLUDE "%path_to_siam_module%/SIAM_Persons.ifc"            -- Interface for managing Person objects.
+   INCLUDE "%path_to_siam_module%/SIAM_Persons.adl"            -- Extension that implements Person objects (as Parties AND Actors).
+   INCLUDE "%path_to_siam_module%/SIAM_PersonAttributes.adl"    -- Add support for basic attributes
+-- INCLUDE "%path_to_siam_module%/SIAMPersonAttributes.ifc"    -- Interface for managing Person objects.
 
 --[Examples of possibly useful RULEs that may be uncommented and adjusted as necessary]
 
 --[INJectivity of Ref-names]
-   RULE "`partyRef` must identify a Party":  partyRef;partyRef~ |- I[Party]
+   RULE "`partyRef` must identify a Party": partyRef;partyRef~ |- I[Party]
    RULE "`actorRef` must identify an Actor": actorRef;actorRef~ |- I[Actor]
+   RULE "`orgRef` must identify an Organization": orgRef;orgRef~ |- I[Organization]
+   RULE "`personRef` must identify a Person": personRef;personRef~ |- I[Person]
+
+--[SysAdmin account]
+-- Activate this rule if you want to ensure you have a SystemAdmin account
+   ROLE ExecEngine MAINTAINS "Create SystemAdmin account if the default population doesn't have it"
+   RULE "Create SystemAdmin account if the default population doesn't have it": I[ONE] |- V;accIsSystemAdmin;V
+   VIOLATION (TXT "{EX} InsAtom;Account"
+             ,TXT "{EX} InsPair;accIsSystemAdmin;Account;_NEW;Account;_NEW"
+             ,TXT "{EX} InsPair;accUserid;Account;_NEW;Userid;admin"
+             ,TXT "{EX} InsPair;accPassword;Account;_NEW;Password;admin"
+             ) --}
 
 --[Account initialization]--
 {- Creating an account (e.g. when importing through an Excel file) does not make it usable immediately.

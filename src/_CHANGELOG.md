@@ -2,8 +2,27 @@
 
 The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.git**.
 
-Last update: RJ/20200720
+Last update: RJ/20210113
+## v4.0.3
+- `accIsPartyAdmin` property is set for Accounts that are AccAdmins for their (same) accParty.
+- `accIsSystemAdmin` property is set for AccAdmins that are AccAdmins for the (I_Am) system.
+- `sessionManageableAccounts` is the set of Accounts that can be managed in a session.
+- Account management interfaces are updated to accommodate for this (requiring the role `AccAdmin`).
+- "SIAMv4_Module-example.adl" has a rule to automatically create a SysAdmin account if the default population doesn't provide it.
+- Persons have a separate file that defines Person-attributes, to make reuse easier 
+- `personRef` and `orgRef are NOT [INJ], but "SIAMv4_Module-example.adl" has default rules for this that can be commented out if needed.
+- `accIsPersonal` and `sessionIsPersonal` properties are added that flag whether an Account or SESSION is of a Person.
 
+## v4.0.2
+- `partyRef`, and `actorRef` are NOT [INJ], but "SIAMv4_Module-example.adl" has default rules for this that can be commented out if needed.
+- The individual parts of the Developer interface can now also be called individually by applications.
+
+## v4.0.1
+- `I_Am` (i.e. the Concept/Atom that represents the system being created) has become an Actor; therefor:
+  - relation `myOwnName` no longer exists and must be replaced with `(I[I_Am];actorRef)`
+  - relation `myOwningParty` no longer exists and must be replaced with `(I[I_Am];ownerRef)`
+- Developer interface is restructured so it can be called by applications
+- minor bugfixes
 ## New Features and changes in SIAM v 4.0 (conceptual changes have been made)
 
 Many things have changed in this version of SIAM, most notably:

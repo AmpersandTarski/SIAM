@@ -4,6 +4,8 @@ CONCEPT Organization "an organized group of people with a particular purpose, su
 
 --[Organization Reference]
 
+-- Note that `orgRef`is **NOT** INJ because applications that use SIAM cannot 'undo' that constraint.
+-- However, file "SIAMv4_Module-example.adl" includes the [UNI]-rules for them by default (which can be commented out)
 orgRef :: Organization * OrgRef  [UNI] -- The human readable name/identifier to refer to the organization
 
 REPRESENT OrgRef TYPE ALPHANUMERIC

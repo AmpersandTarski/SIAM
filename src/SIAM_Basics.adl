@@ -82,6 +82,7 @@ CLASSIFY Party, Actor ISA AorP -- We need this concept to satisfy type-checker c
 CLASSIFY PartyRef, ActorRef ISA IdentRef
 
 -- Note that `partyRef` and `actorRef` are **NOT** INJ because applications that use SIAM cannot 'undo' that constraint.
+-- However, file "SIAMv4_Module-example.adl" includes the [UNI]-rules for them by default (which can be commented out)
 partyRef  :: Party * PartyRef [UNI] -- The human readable name/identifier to refer to the Party
 actorRef  :: Actor * ActorRef [UNI] -- The human readable name/identifier to refer to the Actor
 
@@ -105,6 +106,18 @@ ROLE ExecEngine MAINTAINS "Setting default value for `isOwnedBy` (from specified
 RULE "Setting default value for `isOwnedBy` (from specified `ownerRef`)":
    (I[AorP]-isOwnedBy;isOwnedBy~);ownerRef;(partyRef~ - partyRef~;-I) |- isOwnedBy
 VIOLATION (TXT "{EX} InsPair;isOwnedBy;AorP;", SRC I, TXT ";Party;", TGT I)
+
+--[Parties and Actors: Admin accounts]
+{- A Party, particularly if it isn't also an Actor, such as Organizations, need Actors to do things for them.
+However, not every Actor that works for a Party is allowed to execute arbitrary actions for that Party.
+Therefore, a Party should have at least one Account for an Actor that has the privileges 
+for managing all Accounts associated with that Party: creating them, assinging roles, etc.
+-}
+-- The Account for such an Actor will have the property `accIsPartyAdmin`.
+accIsPartyAdmin  :: Account * Account [PROP] -- This Account may perform all account-related actions for its Party
+
+-- The Account(s) that can manage ALL accounts in the I_Am system is `accIsSystemAdmin`.
+accIsSystemAdmin :: Account * Account [PROP] -- This Account may perform all account-related actions for the entire system
 
 --[Parties and Actors: Employment]
 {- We define `employment` as a relation between a Party (the `employer`) and some AorP (the `employee`),
@@ -140,12 +153,12 @@ VIOLATION (TXT "{EX} InsPair;accActorRef;Account;", SRC I, TXT ";ActorRef;", TGT
 
 ROLE ExecEngine MAINTAINS "The ActorRef of an Account that has an Actor, is the ActorRef of that User"
 RULE "The ActorRef of an Account that has an Actor, is the ActorRef of that User": 
-   accActor;actorRef |- accActorRef
+   accActor;(actorRef - (-I;actorRef)) |- accActorRef -- Note: we should not assume that 'actorRef' is INJ
 VIOLATION (TXT "{EX} InsPair;accActorRef;Account;", SRC I, TXT ";ActorRef;", TGT I[ActorRef])
 
 ROLE ExecEngine MAINTAINS "The PartyRef of an Account that has a Party, is the PartyRef of that Party"
 RULE "The PartyRef of an Account that has a Party, is the PartyRef of that Party": 
-   accParty;partyRef |- accPartyRef
+   accParty;(partyRef - (-I;partyRef)) |- accPartyRef -- Note: we should not assume that 'partyRef' is INJ
 VIOLATION (TXT "{EX} InsPair;accPartyRef;Account;", SRC I, TXT ";PartyRef;", TGT I[PartyRef])
 
 --[Accounts: status attributes for logins]
