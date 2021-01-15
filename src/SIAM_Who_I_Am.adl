@@ -19,5 +19,6 @@ POPULATION I_Am CONTAINS [ "I_Am" ] -- This is what I_Am
    myVerifierURL   :: I_Am * URL    [INJ,UNI] -- (optional) URL of the service this system uses for verifying credentials
    myHolderURL     :: I_Am * URL    [INJ,UNI] -- (optional) URL of the service this system uses for responding to presentation requests
    myDIDPairRegURL :: I_Am * URL    [INJ,UNI] -- (optional) URL of the service this system uses for handling DIDPair registration invitations
+-- Applications may extend the `I_Am` concepts to include other attributes
 
 ENDCONTEXT

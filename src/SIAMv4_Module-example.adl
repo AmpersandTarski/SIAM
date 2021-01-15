@@ -4,7 +4,7 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 --! git@ci.tno.nl:ampersand/ssif.git has the authoratative source of SIAMv4.
 
 --[Specifying the identity of the system itself, and some attributes]
--- INCLUDE "%path_to_siam_module%/SIAM_Who_I_Am.adl"           -- Define the Actor that represents this system.
+   INCLUDE "%path_to_siam_module%/SIAM_Who_I_Am.adl"           -- Define the Actor that represents this system.
 -- POPULATION ownerRef   CONTAINS [ ("I_Am","<PartyRef>")]     -- The name of the Party that (supposedly) owns the system.
 -- POPULATION actorRef   CONTAINS [ ("I_Am","<ActorRef>")]     -- The name that can be used to refer to the system.
 -- POPULATION myLogofile CONTAINS [ ("I_Am","<Fileid>") ]      -- id of the file that can be used to show the system's logo.
@@ -14,8 +14,8 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
    INCLUDE "%path_to_siam_module%/SIAM_PF_Integration.adl"     -- Integration with code and quircks from the Prototype Framework.
    INCLUDE "%path_to_siam_module%/SIAM_Basics.adl"             -- This is the **Core functionality**: Accounts, Sessions, Roles, etc.
 
---[Optionally INCLUDE interface(s) for Developers]
-   INCLUDE "%path_to_siam_module%/SIAM_Developer.ifc" --# [ "NoMainDevIfc" ]          -- Ifc for inspecting SESSION, Accounts, Parties, Actors, Persons, Organizations and Roles.
+--[Optionally INCLUDE interface(s) for Developers] -- Ifc for inspecting SESSION, Accounts, Parties, Actors, Persons, Organizations and Roles.
+   INCLUDE "%path_to_siam_module%/SIAM_Developer.ifc" --# [ "NoMainDevIfc" ]
 
 --[Optionally INCLUDE Account registration and management]
 -- INCLUDE "%path_to_siam_module%/SIAM_AccountRegUsingForm.adl"-- Create Account for a User (=Actor/Party pair) based on filling in a Form.
