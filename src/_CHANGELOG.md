@@ -2,7 +2,11 @@
 
 The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.git**.
 
-Last update: RJ/20210113
+Last update: RJ/20210114
+
+## v4.0.3
+- bugs fixed in computation of `sessionActor` and `sessionParty`
+- minor changes in developer interfaces
 ## v4.0.3
 - `accIsPartyAdmin` property is set for Accounts that are AccAdmins for their (same) accParty.
 - `accIsSystemAdmin` property is set for AccAdmins that are AccAdmins for the (I_Am) system.

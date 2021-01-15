@@ -82,7 +82,7 @@ CLASSIFY Party, Actor ISA AorP -- We need this concept to satisfy type-checker c
 CLASSIFY PartyRef, ActorRef ISA IdentRef
 
 -- Note that `partyRef` and `actorRef` are **NOT** INJ because applications that use SIAM cannot 'undo' that constraint.
--- However, file "SIAMv4_Module-example.adl" includes the [UNI]-rules for them by default (which can be commented out)
+-- **However**, file "SIAMv4_Module-example.adl" includes the [UNI]-rules for them by default (which can be commented out)
 partyRef  :: Party * PartyRef [UNI] -- The human readable name/identifier to refer to the Party
 actorRef  :: Actor * ActorRef [UNI] -- The human readable name/identifier to refer to the Actor
 
@@ -252,8 +252,8 @@ VIOLATION (TXT "{EX} InsPair;sessionActorRef;SESSION;", SRC I, TXT ";ActorRef;",
 
 --$sessionActor (Actor)
 ROLE ExecEngine MAINTAINS "Determine the session's User (Actor)"
-RULE "Determine the session's User (Actor)": sessionAccount;accActorRef |- sessionActorRef
-VIOLATION (TXT "{EX} InsPair;sessionActorRef;SESSION;", SRC I, TXT ";Actor;", TGT I)
+RULE "Determine the session's User (Actor)": sessionAccount;accActor |- sessionActor
+VIOLATION (TXT "{EX} InsPair;sessionActor;SESSION;", SRC I, TXT ";Actor;", TGT I)
 
 --$sessionPartyRef
 ROLE ExecEngine MAINTAINS "Determine the session's PartyRef"
@@ -262,8 +262,8 @@ VIOLATION (TXT "{EX} InsPair;sessionPartyRef;SESSION;", SRC I, TXT ";PartyRef;",
 
 --$sessionParty
 ROLE ExecEngine MAINTAINS "Determine the session's Party"
-RULE "Determine the session's Party": sessionAccount;accPartyRef |- sessionPartyRef
-VIOLATION (TXT "{EX} InsPair;sessionPartyRef;SESSION;", SRC I, TXT ";PartyRef;", TGT I)
+RULE "Determine the session's Party": sessionAccount;accParty |- sessionParty
+VIOLATION (TXT "{EX} InsPair;sessionParty;SESSION;", SRC I, TXT ";Party;", TGT I)
 
 --[Sessions: Auto Login requests]
 --Setting the property `accAutoLoginReq` asks the system to login with that account.

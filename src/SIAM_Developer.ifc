@@ -114,17 +114,22 @@ INTERFACE "[SIAM_Organizations_Dev]": V[ONE*Organization] cRud BOX <TABLE sortab
    ]
 
 VIEW RoleId: Role { "id": I } ENDVIEW
-INTERFACE "[SIAM_Roles_Dev]": V[ONE*Role] cRud BOX <TABLE sortable>
-   [ "id": I[Role] cRud <RoleId>
-   , "systemRole": systemRole cRud
-   , "Accounts": I[Role] cRud BOX <TABLE sortable>
-      [ "Allowed for": accAllowedRoles~ cRud
-      , "Default for": accDefaultRoles~ cRud
+INTERFACE "[SIAM_Roles_Dev]": I[ONE] cRud BOX <FORM>
+   [ "Roles": V[ONE*Role];(I-systemRole) cRud BOX <TABLE sortable>
+      [ "id": I[Role] cRud <RoleId>
+--    , "systemRole": systemRole cRud
+      , "Allowed (Account)": accAllowedRoles~ cRud
+      , "Default (Account)": accDefaultRoles~ cRud
+      , "Allowed (SESSION)": sessionAllowedRoles~;"_SESSION";V[SESSION*Yes] cRud
+      , "Active (SESSION)": sessionActiveRoles~;"_SESSION";V[SESSION*Yes] cRud
       ]
-   , "SESSION": I[Role] cRud BOX <TABLE sortable>
-      [ "Allowed": sessionAllowedRoles~;"_SESSION";V[SESSION*Yes] cRud
-      , "Active": sessionActiveRoles~;"_SESSION";V[SESSION*Yes] cRud
+   , "System Roles": V[ONE*Role];systemRole cRud BOX <TABLE sortable>
+      [ "id": I[Role] cRud <RoleId>
+--    , "systemRole": systemRole cRud
+      , "Allowed (Account)": accAllowedRoles~ cRud
+      , "Default (Account)": accDefaultRoles~ cRud
+      , "Allowed (SESSION)": sessionAllowedRoles~;"_SESSION";V[SESSION*Yes] cRud
+      , "Active (SESSION)": sessionActiveRoles~;"_SESSION";V[SESSION*Yes] cRud
       ]
    ]
-
 ENDCONTEXT
