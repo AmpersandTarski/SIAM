@@ -4,9 +4,15 @@ The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.gi
 
 Last update: RJ/20210119
 
-## v4.0.3
+## v4.0.5
+
+- fixed performance issue in 'personRef' testing invariant
+
+## v4.0.4
+
 - bugs fixed in computation of `sessionActor` and `sessionParty`
-- fixed performance issue, and minor changes in developer interfaces
+- minor changes in developer interfaces
+
 ## v4.0.3
 - `accIsPartyAdmin` property is set for Accounts that are AccAdmins for their (same) accParty.
 - `accIsSystemAdmin` property is set for AccAdmins that are AccAdmins for the (I_Am) system.
