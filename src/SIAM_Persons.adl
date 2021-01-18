@@ -20,9 +20,13 @@ personRef :: Person * PersonRef [UNI] -- The human readable name to refer to, bu
 CLASSIFY PersonRef ISA ActorRef -- make sure 'Ref's can be copied to one another
 CLASSIFY PersonRef ISA PartyRef -- make sure 'Ref's can be copied to one another
 
-RULE "The PersonRef, PartyRef and ActorRef of a Person must all be the same": 
-    I[Person] /\ (personRef;personRef~ \/ actorRef;actorRef~ \/ partyRef;partyRef~) 
-    |- (personRef /\ I[AorP];actorRef;I[IdentRef] /\ partyRef);V[IdentRef*Person]
+-- The following rule is commented out because it is prohibitively performance-consuming
+-- RULE "The PersonRef, PartyRef and ActorRef of a Person must all be the same": 
+--     I[Person] /\ (personRef;personRef~ \/ actorRef;actorRef~ \/ partyRef;partyRef~) 
+--     |- (personRef /\ I[AorP];actorRef;I[IdentRef] /\ partyRef);V[IdentRef*Person]
+RULE "PersonRef and ActorRef must be the same": personRef~;actorRef |- I[IdentRef]
+RULE "PersonRef and PartyRef must be the same": personRef~;partyRef |- I[IdentRef]
+-- Note that this implies that for every Person, its ActorRef = its PartyRef.
 
 ROLE ExecEngine MAINTAINS "Every Person is owned by itself"
 RULE "Every Person is owned by itself": I[Person] |- isOwnedBy
@@ -39,20 +43,20 @@ VIOLATION (TXT "{EX} InsPair;actorRef;Actor;", SRC I, TXT ";ActorRef;", TGT I[Ac
 --[Personal properties for Accounts and Sessions]
 -- EQUIVALENCE accIsPersonal[Account] [PROP] == (accParty;I[AorP] /\ accActor;I[AorP]);I[Person]
 accIsPersonal :: Account * Account [PROP]  -- accActor and accParty refer to the same AoP, being a Person
-ROLE ExecEngine MAINTAINS "Equivalence - InsPair accIsPersonal"
-RULE "Equivalence - InsPair accIsPersonal": I /\ accParty;I[AorP];accActor~ |- accIsPersonal
+ROLE ExecEngine MAINTAINS "EQV-InsPair accIsPersonal"
+RULE "EQV-InsPair accIsPersonal": I /\ accParty;I[AorP];accActor~ |- accIsPersonal
 VIOLATION (TXT "{EX} InsPair;accIsPersonal;Account;", SRC I, TXT ";Account;", TGT I)
-ROLE ExecEngine MAINTAINS "Equivalence - DelPair accIsPersonal"
-RULE "Equivalence - DelPair accIsPersonal": accIsPersonal |- I /\ accParty;I[AorP];accActor~
+ROLE ExecEngine MAINTAINS "EQV-DelPair accIsPersonal"
+RULE "EQV-DelPair accIsPersonal": accIsPersonal |- I /\ accParty;I[AorP];accActor~
 VIOLATION (TXT "{EX} DelPair;accIsPersonal;Account;", SRC I, TXT ";Account;", TGT I)
 
 -- EQUIVALENCE sessionIsPersonal[SESSION] [PROP] == sessionIsUser /\ sessionAccount;accIsPersonal;sessionAccount~
 sessionIsPersonal :: SESSION * SESSION [PROP] -- user is a Person that is both the sessionActor and sessionParty
-ROLE ExecEngine MAINTAINS "Equivalence - InsPair sessionIsPersonal"
-RULE "Equivalence - InsPair sessionIsPersonal": sessionIsUser /\ sessionAccount;accIsPersonal;sessionAccount~ |- sessionIsPersonal
+ROLE ExecEngine MAINTAINS "EQV-InsPair sessionIsPersonal"
+RULE "EQV-InsPair sessionIsPersonal": sessionIsUser /\ sessionAccount;accIsPersonal;sessionAccount~ |- sessionIsPersonal
 VIOLATION (TXT "{EX} InsPair;sessionIsPersonal;SESSION;", SRC I, TXT ";SESSION;", TGT I)
-ROLE ExecEngine MAINTAINS "Equivalence - DelPair sessionIsPersonal"
-RULE "Equivalence - DelPair sessionIsPersonal": sessionIsPersonal |- sessionIsUser /\ sessionAccount;accIsPersonal;sessionAccount~
+ROLE ExecEngine MAINTAINS "EQV-DelPair sessionIsPersonal"
+RULE "EQV-DelPair sessionIsPersonal": sessionIsPersonal |- sessionIsUser /\ sessionAccount;accIsPersonal;sessionAccount~
 VIOLATION (TXT "{EX} DelPair;sessionIsPersonal;SESSION;", SRC I, TXT ";SESSION;", TGT I)
 
 ENDCONTEXT
