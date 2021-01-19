@@ -9,6 +9,14 @@ username and password.
 
 INCLUDE "./SIAM_AccountRegUsingForm.adl"
 
+VIEW AccountOfParty: Account
+{ "accIsNotPersonal": I - accActorRef;I[IdentRef];accPartyRef~
+, "accIsPartyAdmin": accIsPartyAdmin
+, "accIsSystemAdmin": accIsSystemAdmin
+, "accActorRef": accActorRef
+, "accPartyRef": accPartyRef
+} HTML TEMPLATE "View-AccountOfParty.html" ENDVIEW
+
 INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
 --$This section allows users to login or register themselves
    [ "Login bar": I-sessionAccRegForm;sessionAccRegForm~ cRud BOX <TABLE hideOnNoRecords>
@@ -51,13 +59,8 @@ INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
 --$This section allows (enabled) developers to login by selecting an exsting account 
    , "Active accounts": sessionLoginAssist;V;accIsActive cRuD BOX <TABLE hideOnNoRecords sortable>
       [ "Userid": accUserid cRud
-      , "ActorRef": accActorRef cRud
---    , "Actor": accActorRef cRud
---    , "Actor": accActor cRud
---    , "Party": accPartyRef cRud
---    , "Party": accParty cRud
+      , "ActorRef": I cRud <AccountOfParty>
 --    , "UIDs": accUID cRud
---    , "Persona" : accPersona cRud
       , "Roles": accAllowedRoles cRud
 --    , "Allowed roles": accAllowedRoles cRud
 --    , "Default roles": accDefaultRoles cRud
@@ -69,15 +72,11 @@ INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
    , "Inactive accounts": sessionLoginAssist;V;(I-accIsActive) cRuD BOX <TABLE hideOnNoRecords sortable>
       [ "Activate?" : I cRud BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
       , "Userid": accUserid cRud
-      , "ActorRef": accActorRef cRud
---    , "Actor": accActorRef cRud
---    , "Actor": accActor cRud
---    , "Party": accPartyRef cRud
---    , "Party": accParty cRud
+      , "ActorRef": I cRud <AccountOfParty>
 --    , "UIDs": accUID cRud
---    , "Persona" : accPersona cRud
       , "Allowed roles": accAllowedRoles cRUd
       , "Default roles": accDefaultRoles cRUd
+      , " " :  I cRud BOX <RAW> [ "Activate": I cRud BOX <PROPBUTTON> [ "property": accIsActive cRUd ] ]
       ]
 
    ]

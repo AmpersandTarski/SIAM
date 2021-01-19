@@ -2,14 +2,15 @@
 
 The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.git**.
 
-Last update: RJ/20210119
+Last update: RJ/20210120
 
+## v4.06
+- SIAM_LoginForDevelopers now uses the new template 'View-AccountOfParty.html'
+ 
 ## v4.0.5
-
 - fixed performance issue in 'personRef' testing invariant
 
 ## v4.0.4
-
 - bugs fixed in computation of `sessionActor` and `sessionParty`
 - minor changes in developer interfaces
 
