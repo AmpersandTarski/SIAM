@@ -4,7 +4,7 @@ PURPOSE CONTEXT "Login with Userid and Issuer (IdP)"
 a more state-of-the-art approach is to use third Party Identity Providers for this.
 For example, one might allow users to login with Google, or LinkedIn.
 This context specifies the terminology and rules for doing this.
-This first version limits itself to just authenticate users, which means that 
+This first version limits itself to just authenticate users, which means that
 on a succesful authentication, some userID and an idpID become available, such that
 the combination of (idpID,userID) identifies the user (i.e. the Account of the user).
 +}

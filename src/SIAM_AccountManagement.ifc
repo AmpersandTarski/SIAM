@@ -7,18 +7,18 @@ RULE "De-Assign role `AccAdmin`": accAllowedRoles;"AccAdmin" |- (accIsPartyAdmin
 VIOLATION (TXT "{EX} DelPair;accAllowedRoles;Account;", SRC I, TXT ";Role;", TGT I)
 
 ROLE ExecEngine MAINTAINS "Assign role `AccAdmin` to SystemAdmins and PartyAdmins"
-RULE "Assign role `AccAdmin` to SystemAdmins and PartyAdmins": 
+RULE "Assign role `AccAdmin` to SystemAdmins and PartyAdmins":
    accIsPartyAdmin \/ accIsSystemAdmin |- accAllowedRoles;"AccAdmin";accAllowedRoles~
 VIOLATION (TXT "{EX} InsPair;accAllowedRoles;Account;", SRC I, TXT ";Role;AccAdmin")
 
 --[Accounts that may be managed in this session]
--- EQUIVALENCE sessionManageableAccounts[SESSION*Account] == "_SESSION";sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
+-- EQUIVALENCE sessionManageableAccounts[SESSION*Account] == sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
 sessionManageableAccounts :: SESSION * Account -- Account that the sessionUser may manage
 ROLE ExecEngine MAINTAINS "EQV-InsPair sessionManageableAccounts"
-RULE "EQV-InsPair sessionManageableAccounts": "_SESSION";sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V) |- sessionManageableAccounts
+RULE "EQV-InsPair sessionManageableAccounts": sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V) |- sessionManageableAccounts
 VIOLATION (TXT "{EX} InsPair;sessionManageableAccounts;SESSION;", SRC I, TXT ";Account;", TGT I)
 ROLE ExecEngine MAINTAINS "EQV-DelPair sessionManageableAccounts"
-RULE "EQV-DelPair sessionManageableAccounts": sessionManageableAccounts |- "_SESSION";sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
+RULE "EQV-DelPair sessionManageableAccounts": sessionManageableAccounts |- sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
 VIOLATION (TXT "{EX} DelPair;sessionManageableAccounts;SESSION;", SRC I, TXT ";Account;", TGT I)
 
 --[Resetting a password]
@@ -27,7 +27,7 @@ RULE "Password Reset can only be done in a session that can manage the account":
    accNewPassword |- (V;"_SESSION";sessionManageableAccounts)~
 
 ROLE ExecEngine MAINTAINS "(Re)set the password of an account"
-RULE "(Re)set the password of an account": 
+RULE "(Re)set the password of an account":
    accNewPassword /\ (V;"_SESSION";sessionManageableAccounts)~ |- -V
 VIOLATION (TXT "{EX} InsPair;accPassword;Account;", SRC I, TXT ";Password;", TGT I
           ,TXT "{EX} DelPair;accNewPassword;Account;", SRC I, TXT ";Password;", TGT I
@@ -42,7 +42,7 @@ INTERFACE "Account Mgt" FOR "AccAdmin": sessionManageableAccounts cRud BOX <TABL
    , "Party": accPartyRef cRud
 -- , "Party": accParty cRud
    , "Allowed roles": accAllowedRoles cRud
-   , "Default roles": accDefaultRoles cRud 
+   , "Default roles": accDefaultRoles cRud
 --#IF AccountsInterfaceUsesActivationButtons
    , " ": I BOX <RAW>
       [ "Activate" : I-accIsActive BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
@@ -50,7 +50,7 @@ INTERFACE "Account Mgt" FOR "AccAdmin": sessionManageableAccounts cRud BOX <TABL
       ]
 --#ENDIF
    ]
-           
+
 INTERFACE "Account" FOR "AccAdmin": -- AccManagers should not be able to change their own roles
    I[Account] /\ sessionManageableAccounts~;"_SESSION";(sessionManageableAccounts-sessionAccount) cRud BOX <FORM>
    [ "Userid": accUserid cRUd
@@ -81,7 +81,7 @@ INTERFACE "My Account" FOR User: "_SESSION";sessionAccount cRud BOX <FORM>
 --[Roles]--
 
 VIEW AccUIDandParty: Account
-{ "userid": accUserid, "(": TXT " (", "partyRef": accPartyRef, ")": TXT ")" 
+{ "userid": accUserid, "(": TXT " (", "partyRef": accPartyRef, ")": TXT ")"
 } ENDVIEW
 
 INTERFACE "Roles" FOR "AccAdmin": V[SESSION*Role] CRud BOX <TABLE sortable>

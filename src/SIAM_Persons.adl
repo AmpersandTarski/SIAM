@@ -21,8 +21,8 @@ CLASSIFY PersonRef ISA ActorRef -- make sure 'Ref's can be copied to one another
 CLASSIFY PersonRef ISA PartyRef -- make sure 'Ref's can be copied to one another
 
 -- The following rule is commented out because it is prohibitively performance-consuming
--- RULE "The PersonRef, PartyRef and ActorRef of a Person must all be the same": 
---     I[Person] /\ (personRef;personRef~ \/ actorRef;actorRef~ \/ partyRef;partyRef~) 
+-- RULE "The PersonRef, PartyRef and ActorRef of a Person must all be the same":
+--     I[Person] /\ (personRef;personRef~ \/ actorRef;actorRef~ \/ partyRef;partyRef~)
 --     |- (personRef /\ I[AorP];actorRef;I[IdentRef] /\ partyRef);V[IdentRef*Person]
 RULE "PersonRef and ActorRef must be the same": personRef~;actorRef |- I[IdentRef]
 RULE "PersonRef and PartyRef must be the same": personRef~;partyRef |- I[IdentRef]

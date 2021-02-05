@@ -6,21 +6,20 @@ Last update: RJ/20210120
 
 ## v4.06
 - SIAM_LoginForDevelopers now uses the new template 'View-AccountOfParty.html'
- 
+- accParty, accPartyRef are computed from accPartyRef and accParty respectively (if there is no ambiguity there)
+- accActor, accActorRef are computed from accActorRef and accActor respectively (if there is no ambiguity there)
 ## v4.0.5
 - fixed performance issue in 'personRef' testing invariant
-
 ## v4.0.4
 - bugs fixed in computation of `sessionActor` and `sessionParty`
 - minor changes in developer interfaces
-
 ## v4.0.3
 - `accIsPartyAdmin` property is set for Accounts that are AccAdmins for their (same) accParty.
 - `accIsSystemAdmin` property is set for AccAdmins that are AccAdmins for the (I_Am) system.
 - `sessionManageableAccounts` is the set of Accounts that can be managed in a session.
 - Account management interfaces are updated to accommodate for this (requiring the role `AccAdmin`).
 - "SIAMv4_Module-example.adl" has a rule to automatically create a SysAdmin account if the default population doesn't provide it.
-- Persons have a separate file that defines Person-attributes, to make reuse easier 
+- Persons have a separate file that defines Person-attributes, to make reuse easier
 - `personRef` and `orgRef are NOT [INJ], but "SIAMv4_Module-example.adl" has default rules for this that can be commented out if needed.
 - `accIsPersonal` and `sessionIsPersonal` properties are added that flag whether an Account or SESSION is of a Person.
 
@@ -39,7 +38,7 @@ Last update: RJ/20210120
 Many things have changed in this version of SIAM, most notably:
 - **Accounts are now related to Parties and Actors** - see file "SIAM_Basics.adl" for details.
 - Parties are entities that have and maintain knowledge. They include Organizations and Persons.
-- Actors are entities that can do things. This includes Persons. 
+- Actors are entities that can do things. This includes Persons.
 - the 'User' refers to the (Actor,Party) pair associated with the Account, and the `Userid` identifies the Account and that pair
 - the system itself is also an Actor, and is modeld with the (new) notion of 'I_Am'. You can thus give the system a name (`actorRef`), and you can have the system owned, all by the now existing default means for actors and parties.
 - The concept `UserID` has been renamed into `Userid`, which results in less errors. Note that `Userid` now explicitly identifies the Account itself (or if you will, the (Actor,Party) pair that the Account is associated with).

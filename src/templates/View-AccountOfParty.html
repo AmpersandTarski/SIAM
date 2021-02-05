@@ -9,7 +9,7 @@ VIEW AccountOfParty: Account
 -->
 <div ng-repeat="resource in $if(exprIsUni)$(resource['$name$'] === null ? [] : [resource['$name$']])$else$resource['$name$']$endif$">
 	<span>{{resource._view_.accActorRef}}</span>
-	<span ng-if="resource._view_.accIsNotPersonal"><br>
+	<span ng-if="resource._view_.accIsNotPersonal"><br/>
 		<span ng-if="resource._view_.accIsPartyAdmin">[{{resource._view_.accPartyRef}}]</span>
 		<span ng-if="!resource._view_.accIsPartyAdmin">({{resource._view_.accPartyRef}})</span>
 		<span ng-if="resource._view_.accIsSystemAdmin">*</span>

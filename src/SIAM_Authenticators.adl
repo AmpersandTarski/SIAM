@@ -5,9 +5,9 @@ i.e. the Actor(s) that make authoritative decisions for that Party.
 each of which requires an Account that is controlled by the Party it represents.
 A Representative is either an Actor or another Party.
 An Actor has the capability of identifying itself as an Actor
-A Party has the capability to define a RepresentativeSpecification, 
+A Party has the capability to define a RepresentativeSpecification,
 i.e. a set of Attributes that apply to the Actor that instantiates that specification,
-a subset of which may be designated for the purpose of identifying and/or authenticating 
+a subset of which may be designated for the purpose of identifying and/or authenticating
 an Actor as a Representative of the Party.
 -}
 
@@ -25,7 +25,7 @@ froleParty :: FuncRole * Party [UNI,TOT] -- Party that has defined and controls 
 froleName  :: FuncRole * FRName [UNI,TOT] -- name by which the owning Party refers to the FuncRole
 froleAllowedRoles :: FuncRole * Role -- the set of (allowed system) roles that are associated with the FuncRole
 
---[RepViews] 
+--[RepViews]
 CONCEPT RepView "a set of Attributes, defined and controlled by a specific Party, for characterizing a specific Actor that works on its behalf"
 
 repvParty     :: RepView * Party [SUR,UNI,TOT] -- Party on behalf of which the Actor that instantiates this RepView, works.

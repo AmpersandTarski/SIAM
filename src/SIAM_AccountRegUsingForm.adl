@@ -84,7 +84,7 @@ VIOLATION (TXT "{EX} DelPair;arfCreateAccountReq;AccRegForm;", SRC I, TXT ";AccR
 
 ROLE ExecEngine MAINTAINS "Service Account create request"
 RULE "Service Account create request": arfCreateAccountReq /\ arfIsClean |- arfAccount;arfAccount~
-VIOLATION (TXT "{EX} InsAtom;Account" 
+VIOLATION (TXT "{EX} InsAtom;Account"
           ,TXT "{EX} InsPair;arfAccount;AccRegForm;", SRC I, TXT ";Account;_NEW"
 
           ,TXT "{EX} InsPair;accUserid;Account;_NEW;Userid;", SRC arfUserid

@@ -24,25 +24,25 @@ INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
       , "Password": loginPassword cRUd -- crUd is needed for Passwords
 --    , "IdP": loginIdP cRUd
 --    , "Auth.level": sessionAuthLoA cRUd
-      , " ": I BOX <RAW table>
-         [ "login": I-sessionLoginAssist cRud BOX <PROPBUTTON> 
+      , " ": I BOX <TABLE hideOnNoRecords noHeader>
+         [ "login": I-sessionLoginAssist cRud BOX <PROPBUTTON>
             [ "label": TXT "Login"
             , "property": sessionLoginReq cRUd
             , "disabled": I - (loginUserid;loginUserid~ /\ loginPassword;loginPassword~) cRud
             ]
+         , "error": sessionLoginAssist;(I-(V;accIsActive;V)) BOX <RAW>
+            [ "msg": TXT "Cannot help - there are no (active) accounts"
+            ]
          , "show accounts": I-sessionLoginAssist BOX <PROPBUTTON>
             [ "label": TXT "Show Accounts"
-            , "property": sessionLoginAssist cRUd 
+            , "property": sessionLoginAssist cRUd
             ]
          , "hide accounts": sessionLoginAssist BOX <PROPBUTTON>
             [ "label": TXT "Hide Accounts"
             , "property": sessionLoginAssist cRUd
             ]
-         , "error": sessionLoginAssist;(I-(V;accIsActive;V)) BOX <RAW> 
-            [ "msg": TXT "Cannot help - there are no (active) accounts"
-            ]
 --#IFNOT NoRegistrationWithLogin
-         , "register": I-sessionLoginAssist cRud BOX <PROPBUTTON> 
+         , "register": I-sessionLoginAssist cRud BOX <PROPBUTTON>
             [ "label": TXT "Register"
             , "property": sessionCreateAccRegFormReq cRUd
             , "disabled": I /\ sessionAccRegForm;sessionAccRegForm~ cRud
@@ -56,7 +56,7 @@ INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
    , "Registration": sessionAccRegForm INTERFACE "Register"
 --#ENDIF
 
---$This section allows (enabled) developers to login by selecting an exsting account 
+--$This section allows (enabled) developers to login by selecting an exsting account
    , "Active accounts": sessionLoginAssist;V;accIsActive cRuD BOX <TABLE hideOnNoRecords sortable>
       [ "Userid": accUserid cRud
       , "ActorRef": I cRud <AccountOfParty>

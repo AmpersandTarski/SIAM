@@ -24,7 +24,7 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 
 --[Choose your support for login, suspend, logout]
 -- INCLUDE "%path_to_siam_module%/SIAM_ISO_LoA.adl"            -- Extension that introduces ISO authentication levels in a basic fashion.
--- INCLUDE "%path_to_siam_module%/SIAM_LoginLogging.adl"       -- Extension that keeps track of when logins are done. 
+-- INCLUDE "%path_to_siam_module%/SIAM_LoginLogging.adl"       -- Extension that keeps track of when logins are done.
    INCLUDE "%path_to_siam_module%/SIAM_LoginWithUPW.adl"       -- Login using U/PW (Usernames and Passwords).
 -- INCLUDE "%path_to_siam_module%/SIAM_LoginWithUID.adl"       -- Login using UIDs (userids from third Party identity providers).
 
@@ -91,7 +91,7 @@ Note: setting the property `accIsActive` will automatically also set `accIsIniti
 
 --[Initially, allowed roles are default Roles]--
 {- ROLE ExecEngine MAINTAINS "Initially, allowed roles are also default roles"
-   RULE "Initially, allowed roles are also default roles": 
+   RULE "Initially, allowed roles are also default roles":
    (I-(accDefaultRoles;(I-"User");accDefaultRoles~));accAllowedRoles |- accDefaultRoles
    VIOLATION (TXT "{EX} InsPair;accDefaultRoles;Account;", SRC I, TXT ";Role;", TGT I) --}
 
