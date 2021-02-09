@@ -175,12 +175,20 @@ accIsActive      :: Account * Account [PROP] -- property that the account may be
 accUserIfc       :: Account * NavToIfc [UNI] -- the INTERFACE to navigate to after a succesful login
 accDeactivateReq :: Account * Account [PROP] -- property, requesting to deactivate the account.
 
+ROLE ExecEngine MAINTAINS "A SystemAdmin account is always active"
+RULE "A SystemAdmin account is always active": accIsSystemAdmin |- accIsActive
+VIOLATION (TXT "{EX} InsPair;accIsActive;Account;", SRC I, TXT ";Account;", TGT I)
+
 ROLE ExecEngine MAINTAINS "Active user accounts are initialized"
 RULE "Active user accounts are initialized": accIsActive |- accIsInitialized
 VIOLATION (TXT "{EX} InsPair;accIsInitialized;Account;", SRC I, TXT ";Account;", TGT I)
 
-ROLE ExecEngine MAINTAINS "Request to deactivate sessionAccount"
-RULE "Request to deactivate sessionAccount": accDeactivateReq |- sessionAccount~;sessionAccount
+ROLE ExecEngine MAINTAINS "Deny accDeactivateReq"
+RULE "Deny accDeactivateReq": accDeactivateReq |- accIsSystemAdmin
+VIOLATION (TXT "{EX} DelPair;accDeactivateReq;Account;", SRC I, TXT ";Account;", TGT I)
+
+ROLE ExecEngine MAINTAINS "Service accDeactivateReq"
+RULE "Service accDeactivateReq": accDeactivateReq-accIsSystemAdmin |- sessionAccount~;sessionAccount
 VIOLATION (TXT "{EX} DelPair;accIsActive;Account;", SRC I, TXT ";Account;", TGT I
           ,TXT "{EX} DelPair;accDeactivateReq;Account;", SRC I, TXT ";Account;", TGT I
           )
@@ -242,6 +250,10 @@ sessionPartyRef :: SESSION * PartyRef [UNI]  -- Human readable identifier for th
 sessionParty    :: SESSION * Party    [UNI]  -- further details about the Party on whose behalf the Actor works for whom this account is created.
 
 RULE "(Additional) (re)authentication must be for the same user account": sessionUserid;accUserid~ |- sessionAccount
+
+ROLE ExecEngine MAINTAINS "Throw away obsolete sessions" -- Fixes https://github.com/AmpersandTarski/RAP/issues/113
+RULE "Throw away obsolete sessions": "_SESSION";sessionAccount;sessionAccount~ |- I
+VIOLATION (TXT "{EX} DelAtom;SESSION;", TGT I)
 
 ROLE ExecEngine MAINTAINS "Sessions with an inactive sessionaccount may not exist"
 RULE "Sessions with an inactive sessionaccount may not exist": sessionAccount |- sessionAccount;accIsActive

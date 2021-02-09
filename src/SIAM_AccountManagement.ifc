@@ -14,11 +14,11 @@ VIOLATION (TXT "{EX} InsPair;accAllowedRoles;Account;", SRC I, TXT ";Role;AccAdm
 --[Accounts that may be managed in this session]
 -- EQUIVALENCE sessionManageableAccounts[SESSION*Account] == sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
 sessionManageableAccounts :: SESSION * Account -- Account that the sessionUser may manage
-ROLE ExecEngine MAINTAINS "EQV-InsPair sessionManageableAccounts"
-RULE "EQV-InsPair sessionManageableAccounts": sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V) |- sessionManageableAccounts
+ROLE ExecEngine MAINTAINS "Eqv-InsPair sessionManageableAccounts"
+RULE "Eqv-InsPair sessionManageableAccounts": sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V) |- sessionManageableAccounts
 VIOLATION (TXT "{EX} InsPair;sessionManageableAccounts;SESSION;", SRC I, TXT ";Account;", TGT I)
-ROLE ExecEngine MAINTAINS "EQV-DelPair sessionManageableAccounts"
-RULE "EQV-DelPair sessionManageableAccounts": sessionManageableAccounts |- sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
+ROLE ExecEngine MAINTAINS "Eqv-DelPair sessionManageableAccounts"
+RULE "Eqv-DelPair sessionManageableAccounts": sessionManageableAccounts |- sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
 VIOLATION (TXT "{EX} DelPair;sessionManageableAccounts;SESSION;", SRC I, TXT ";Account;", TGT I)
 
 --[Resetting a password]
@@ -36,7 +36,7 @@ VIOLATION (TXT "{EX} InsPair;accPassword;Account;", SRC I, TXT ";Password;", TGT
 --[Account interfaces]
 
 INTERFACE "Account Mgt" FOR "AccAdmin": sessionManageableAccounts cRud BOX <TABLE sortable>
-   [ "Userid": I cRud LINKTO INTERFACE "Account"
+   [ "Userid": I cRud <AccountTwoLineSummary> LINKTO INTERFACE "Account"
    , "User": accActorRef cRud
 -- , "User": accActor cRud
    , "Party": accPartyRef cRud
@@ -62,8 +62,8 @@ INTERFACE "Account" FOR "AccAdmin": -- AccManagers should not be able to change 
    , "Allowed roles": accAllowedRoles cRUd
    , "Default roles": accDefaultRoles cRUd
    , " ": I BOX <RAW>
-      [ "Activate" : I-accIsActive BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
-      , "Deactivate" : accIsActive BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
+      [ "Activate": I-accIsActive                  BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
+      , "Deactivate": accIsActive-accIsSystemAdmin BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
       ]
    ]
 

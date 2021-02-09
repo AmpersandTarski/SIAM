@@ -21,4 +21,11 @@ POPULATION I_Am CONTAINS [ "I_Am" ] -- This is what I_Am
    myDIDPairRegURL :: I_Am * URL    [INJ,UNI] -- (optional) URL of the service this system uses for handling DIDPair registration invitations
 -- Applications may extend the `I_Am` concepts to include other attributes
 
+VIEW "ActorAndOwner": Actor -- use this in an INTERFACE, e.g. as `"label": V;I_Am cRud <ActorAndOwner>`
+   { "actorRef": actorRef
+   , "TXT:(": TXT " ("
+   , "ownerRef": ownerRef
+   , "TXT:)": TXT ")"
+   } ENDVIEW
+
 ENDCONTEXT

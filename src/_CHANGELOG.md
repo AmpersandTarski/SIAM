@@ -4,7 +4,12 @@ The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.gi
 
 Last update: RJ/20210120
 
-## v4.06
+## v4.1.0
+- Added `VIEW "ActorAndOwner"` for Actors. It shows `{actorRef} ({ownerRef})`
+- SystemAdmin account is always active
+- Fix for https://github.com/AmpersandTarski/RAP/issues/113
+
+## v4.0.6
 - SIAM_LoginForDevelopers now uses the new template 'View-AccountOfParty.html'
 - accParty, accPartyRef are computed from accPartyRef and accParty respectively (if there is no ambiguity there)
 - accActor, accActorRef are computed from accActorRef and accActor respectively (if there is no ambiguity there)

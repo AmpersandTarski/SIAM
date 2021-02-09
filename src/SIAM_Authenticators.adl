@@ -40,11 +40,11 @@ accRepView :: Account * RepView [INJ,UNI] -- The RepView that is associated with
 
 actorFitsRepView :: Actor * RepView [INJ] -- This is a relatively static relation
 actorWorksFor :: Actor * Party [SUR] -- And consequently, this is a relatively static relation as well.
-ROLE ExecEngine MAINTAINS "EQV-InsPair actorWorksFor"
-RULE "EQV-InsPair actorWorksFor": actorFitsRepView;repvParty |- actorWorksFor[Actor*Party]
+ROLE ExecEngine MAINTAINS "Eqv-InsPair actorWorksFor"
+RULE "Eqv-InsPair actorWorksFor": actorFitsRepView;repvParty |- actorWorksFor[Actor*Party]
 VIOLATION (TXT "{EX} InsPair;actorWorksFor;Actor;", SRC I, TXT ";Party;", TGT I)
-ROLE ExecEngine MAINTAINS "EQV-DelPair actorWorksFor"
-RULE "EQV-DelPair actorWorksFor": actorWorksFor[Actor*Party] |- actorFitsRepView;repvParty
+ROLE ExecEngine MAINTAINS "Eqv-DelPair actorWorksFor"
+RULE "Eqv-DelPair actorWorksFor": actorWorksFor[Actor*Party] |- actorFitsRepView;repvParty
 VIOLATION (TXT "{EX} DelPair;actorWorksFor;Actor;", SRC I, TXT ";Party;", TGT I)
 
 

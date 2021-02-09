@@ -39,11 +39,11 @@ INTERFACE "[SIAM_SESSION_Dev]": V[ONE*SESSION];"_SESSION" cRud BOX
    [ "Account": sessionAccount cRud
    , "OrigAcc": sessionOrigAcc cRud
    , "Userid": sessionUserid cRud
-   , "ActorRef": sessionActorRef
+   , "ActorRef": sessionActor <ActorAndOwner>
    , "PartyRef": sessionPartyRef
    ]
 , "Actor, Party": I cRud BOX <TABLE>
-   [ "ActorRef": sessionActorRef cRud
+   [ "ActorRef": sessionActor cRud <ActorAndOwner>
    , "Actor": sessionActor cRud
    , "PartyRef": sessionPartyRef cRud
    , "Party": sessionParty cRud
@@ -51,6 +51,7 @@ INTERFACE "[SIAM_SESSION_Dev]": V[ONE*SESSION];"_SESSION" cRud BOX
 , "Org, Person": I cRud BOX <TABLE>
    [  "Personal": (sessionActor;I[AorP] /\ sessionParty;I[AorP]);V[Person*Yes]
    ,  "Organizational": (sessionActor;I[AorP] /\ sessionParty;I[AorP]);(I[AorP]-I[Person]);V[AorP*Yes]
+   ,  "I_Am": V[SESSION*I_Am] cRud <ActorAndOwner>
    ]
 ]
 
@@ -87,6 +88,7 @@ INTERFACE "[SIAM_Parties_Dev]": V[ONE*Party] cRud BOX <TABLE sortable>
 VIEW ActorId: Actor { "id": I } ENDVIEW
 INTERFACE "[SIAM_Actors_Dev]": V[ONE*Actor] cRud BOX <TABLE sortable>
    [ "id": I[Actor] cRud <ActorId>
+   , "Actor (owned)": I[Actor] cRud <ActorAndOwner>
    , "ActorRef": actorRef cRud
    , "Owned by (Party)": isOwnedBy cRud
    , "Person?": I[Person] cRud <PrsYesNo>
