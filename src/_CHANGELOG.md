@@ -4,11 +4,15 @@ The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.gi
 
 Last update: RJ/20210120
 
+## Unversioned updates
+- OrgFullName is now an IdentRef, enabling it to be used as an OrgRef as well
+- file `SIAM_Views.ifc` has been added; it contains handy views (none of them being default views)
+- SystemAdmin is renamed to SysAdmin
+
 ## v4.1.0
 - Added `VIEW "ActorAndOwner"` for Actors. It shows `{actorRef} ({ownerRef})`
 - SystemAdmin account is always active
 - Fix for https://github.com/AmpersandTarski/RAP/issues/113
-
 ## v4.0.6
 - SIAM_LoginForDevelopers now uses the new template 'View-AccountOfParty.html'
 - accParty, accPartyRef are computed from accPartyRef and accParty respectively (if there is no ambiguity there)

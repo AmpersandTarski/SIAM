@@ -3,22 +3,23 @@ CONTEXT "AccountAndRoleMgt" IN ENGLISH
 POPULATION Role CONTAINS [ "AccAdmin" ] -- Role that allows management of all accounts of this system
 
 ROLE ExecEngine MAINTAINS "De-Assign role `AccAdmin`"
-RULE "De-Assign role `AccAdmin`": accAllowedRoles;"AccAdmin" |- (accIsPartyAdmin \/ accIsSystemAdmin);V
+RULE "De-Assign role `AccAdmin`": accAllowedRoles;"AccAdmin" |- (accIsPartyAdmin \/ accIsSysAdmin);V
 VIOLATION (TXT "{EX} DelPair;accAllowedRoles;Account;", SRC I, TXT ";Role;", TGT I)
 
 ROLE ExecEngine MAINTAINS "Assign role `AccAdmin` to SystemAdmins and PartyAdmins"
 RULE "Assign role `AccAdmin` to SystemAdmins and PartyAdmins":
-   accIsPartyAdmin \/ accIsSystemAdmin |- accAllowedRoles;"AccAdmin";accAllowedRoles~
+   accIsPartyAdmin \/ accIsSysAdmin |- accAllowedRoles;"AccAdmin";accAllowedRoles~
 VIOLATION (TXT "{EX} InsPair;accAllowedRoles;Account;", SRC I, TXT ";Role;AccAdmin")
 
 --[Accounts that may be managed in this session]
--- EQUIVALENCE sessionManageableAccounts[SESSION*Account] == sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
+-- EQUIVALENCE sessionManageableAccounts[SESSION*Account] == sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSysAdmin;V)
 sessionManageableAccounts :: SESSION * Account -- Account that the sessionUser may manage
+-- An AccountManager cannot manage his own account other than as users can. That's the 4-eyes principle.
 ROLE ExecEngine MAINTAINS "Eqv-InsPair sessionManageableAccounts"
-RULE "Eqv-InsPair sessionManageableAccounts": sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V) |- sessionManageableAccounts
+RULE "Eqv-InsPair sessionManageableAccounts": sessionAccount;(accIsPartyAdmin;accParty;accParty~ \/ accIsSysAdmin;V)-sessionAccount |- sessionManageableAccounts
 VIOLATION (TXT "{EX} InsPair;sessionManageableAccounts;SESSION;", SRC I, TXT ";Account;", TGT I)
 ROLE ExecEngine MAINTAINS "Eqv-DelPair sessionManageableAccounts"
-RULE "Eqv-DelPair sessionManageableAccounts": sessionManageableAccounts |- sessionAccount;(I \/ accIsPartyAdmin;accParty;accParty~ \/ accIsSystemAdmin;V)
+RULE "Eqv-DelPair sessionManageableAccounts": sessionManageableAccounts |- sessionAccount;(accIsPartyAdmin;accParty;accParty~ \/ accIsSysAdmin;V)-sessionAccount
 VIOLATION (TXT "{EX} DelPair;sessionManageableAccounts;SESSION;", SRC I, TXT ";Account;", TGT I)
 
 --[Resetting a password]
@@ -34,19 +35,17 @@ VIOLATION (TXT "{EX} InsPair;accPassword;Account;", SRC I, TXT ";Password;", TGT
           )
 
 --[Account interfaces]
-
+VIEW AccountUserid: Account { "id": accUserid } ENDVIEW
 INTERFACE "Account Mgt" FOR "AccAdmin": sessionManageableAccounts cRud BOX <TABLE sortable>
-   [ "Userid": I cRud <AccountTwoLineSummary> LINKTO INTERFACE "Account"
-   , "User": accActorRef cRud
--- , "User": accActor cRud
+   [ "Userid": I cRud <AccountUserid> LINKTO INTERFACE "Account"
+   , "Actor": accActorRef cRud
    , "Party": accPartyRef cRud
--- , "Party": accParty cRud
    , "Allowed roles": accAllowedRoles cRud
    , "Default roles": accDefaultRoles cRud
 --#IF AccountsInterfaceUsesActivationButtons
-   , " ": I BOX <RAW>
-      [ "Activate" : I-accIsActive BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
-      , "Deactivate" : accIsActive BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
+   , " ": I cRud BOX <RAW>
+      [ "Activate" : I-accIsActive cRud BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
+      , "Deactivate" : accIsActive cRud BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
       ]
 --#ENDIF
    ]
@@ -55,48 +54,40 @@ INTERFACE "Account" FOR "AccAdmin": -- AccManagers should not be able to change 
    I[Account] /\ sessionManageableAccounts~;"_SESSION";(sessionManageableAccounts-sessionAccount) cRud BOX <FORM>
    [ "Userid": accUserid cRUd
    , "(Re)set password": accNewPassword cRUd -- crUd is needed for Passwords
-   , "User": accActorRef cRud
--- , "User": accActor cRUd
+   , "Actor": accActorRef cRud
    , "Party": accPartyRef cRud
--- , "Party": accParty cRUd
    , "Allowed roles": accAllowedRoles cRUd
    , "Default roles": accDefaultRoles cRUd
-   , " ": I BOX <RAW>
-      [ "Activate": I-accIsActive                  BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
-      , "Deactivate": accIsActive-accIsSystemAdmin BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
+   , " ": I cRud BOX <RAW>
+      [ "Activate": I-accIsActive                 cRud BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
+      , "Deactivate": accIsActive-accIsSysAdmin cRud BOX <PROPBUTTON> [ "property": accIsActive cRUd ]
       ]
    ]
 
 INTERFACE "My Account" FOR User: "_SESSION";sessionAccount cRud BOX <FORM>
    [ "Userid": accUserid cRud
    , "New password": accNewPassword cRUd -- crUd is needed for Passwords
-   , "User": accActorRef cRUd
--- , "User": accActor cRUd
+   , "Actor": accActorRef cRUd
    , "Party": accPartyRef cRud
--- , "Party": accParty cRUd
    , "Allowed roles": accAllowedRoles cRud
    , "Default roles": accDefaultRoles cRUd
    ]
 
 --[Roles]--
 
-VIEW AccUIDandParty: Account
-{ "userid": accUserid, "(": TXT " (", "partyRef": accPartyRef, ")": TXT ")"
-} ENDVIEW
-
-INTERFACE "Roles" FOR "AccAdmin": V[SESSION*Role] CRud BOX <TABLE sortable>
+INTERFACE "Role Mgt" FOR "AccAdmin": V[SESSION*Role] CRud BOX <TABLE sortable>
    [ "Role": I cRud
-   , "Assigned to": accAllowedRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccUIDandParty>
+   , "Assigned to": accAllowedRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
    , "Assign to": I[Role] cRud BOX <OBJECTDROPDOWN>
-      [ selectfrom: -I;accAllowedRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccUIDandParty>
+      [ selectfrom: -I;accAllowedRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
       , setrelation: accAllowedRoles~ cRUd -- If the relation is [UNI], a newly selected object will replace the existing population.
       , instruction: TXT "Select account(s) for this role" -- Text that shows when nothing is selected yet
 --    , selectflag: selectEventFlag cRUd -- [PROP]-type relation that toggles when OBJECT is selected
 --    , deselectflag: deselectEventFlag cRUd -- [PROP]-type relation that toggles when NO OBJECT is selected
       ]
-   , "Default for": accDefaultRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccUIDandParty>
+   , "Default for": accDefaultRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
    , "Make default for": I[Role] cRud BOX <OBJECTDROPDOWN>
-      [ selectfrom: -I;accDefaultRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccUIDandParty>
+      [ selectfrom: -I;accDefaultRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
       , setrelation: accDefaultRoles~ cRUd -- If the relation is [UNI], a newly selected object will replace the existing population.
       , instruction: TXT "Select account(s) for this default role" -- Text that shows when nothing is selected yet
 --    , selectflag: selectEventFlag cRUd -- [PROP]-type relation that toggles when OBJECT is selected

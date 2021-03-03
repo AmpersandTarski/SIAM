@@ -1,7 +1,9 @@
 <!--
+oneMessage :: ONE * IfcText [UNI] REPRESENT IfcText ALPHANUMERIC
 VIEW InterfaceMetaData: InterfaceMetaData
 { "ifcLogofile": ifcLogofile
 , "ifcTitle": ifcTitle
+, "ifcMessage": V;oneMessage
 } HTML TEMPLATE "View-InterfaceMetaData" ENDVIEW
 -->
 <div ng-repeat="resource in $if(exprIsUni)$(resource['$name$'] === null ? [] : [resource['$name$']])$else$resource['$name$']$endif$">
@@ -9,5 +11,6 @@ VIEW InterfaceMetaData: InterfaceMetaData
     <img style="height: 2em;" ng-src="app/images/{{resource._view_.ifcLogofile}}" alt="'app/images/{{resource._view_.ifcLogofile}}'"/>
 		<span>&nbsp;</span>
 		<span> {{resource._view_.ifcTitle}}</span>
+		<span style="text-align:right;">{{resource._view_.ifcMessage}}</span>
 	</h2>
 </div>

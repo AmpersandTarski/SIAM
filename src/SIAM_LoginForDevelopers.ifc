@@ -12,7 +12,7 @@ INCLUDE "./SIAM_AccountRegUsingForm.adl"
 VIEW AccountOfParty: Account
 { "accIsNotPersonal": I - accActorRef;I[IdentRef];accPartyRef~
 , "accIsPartyAdmin": accIsPartyAdmin
-, "accIsSystemAdmin": accIsSystemAdmin
+, "accIsSysAdmin": accIsSysAdmin
 , "accActorRef": accActorRef
 , "accPartyRef": accPartyRef
 } HTML TEMPLATE "View-AccountOfParty.html" ENDVIEW
@@ -24,20 +24,20 @@ INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
       , "Password": loginPassword cRUd -- crUd is needed for Passwords
 --    , "IdP": loginIdP cRUd
 --    , "Auth.level": sessionAuthLoA cRUd
-      , " ": I BOX <TABLE hideOnNoRecords noHeader>
+      , " ": I cRud BOX <TABLE hideOnNoRecords noHeader>
          [ "login": I-sessionLoginAssist cRud BOX <PROPBUTTON>
             [ "label": TXT "Login"
             , "property": sessionLoginReq cRUd
             , "disabled": I - (loginUserid;loginUserid~ /\ loginPassword;loginPassword~) cRud
             ]
-         , "error": sessionLoginAssist;(I-(V;accIsActive;V)) BOX <RAW>
+         , "error": sessionLoginAssist;(I-(V;accIsActive;V))cRud BOX <RAW>
             [ "msg": TXT "Cannot help - there are no (active) accounts"
             ]
-         , "show accounts": I-sessionLoginAssist BOX <PROPBUTTON>
+         , "show accounts": I-sessionLoginAssist cRud BOX <PROPBUTTON>
             [ "label": TXT "Show Accounts"
             , "property": sessionLoginAssist cRUd
             ]
-         , "hide accounts": sessionLoginAssist BOX <PROPBUTTON>
+         , "hide accounts": sessionLoginAssist cRud BOX <PROPBUTTON>
             [ "label": TXT "Hide Accounts"
             , "property": sessionLoginAssist cRUd
             ]

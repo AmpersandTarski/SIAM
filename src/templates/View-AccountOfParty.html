@@ -2,7 +2,7 @@
 VIEW AccountOfParty: Account
 { "accIsNotPersonal": I - accActorRef;I[IdentRef];accPartyRef~
 , "accIsPartyAdmin": accIsPartyAdmin
-, "accIsSystemAdmin": accIsSystemAdmin
+, "accIsSysAdmin": accIsSysAdmin
 , "accActorRef": accActorRef
 , "accPartyRef": accPartyRef
 } HTML TEMPLATE "View-AccountOfParty.html" ENDVIEW
@@ -12,6 +12,6 @@ VIEW AccountOfParty: Account
 	<span ng-if="resource._view_.accIsNotPersonal"><br/>
 		<span ng-if="resource._view_.accIsPartyAdmin">[{{resource._view_.accPartyRef}}]</span>
 		<span ng-if="!resource._view_.accIsPartyAdmin">({{resource._view_.accPartyRef}})</span>
-		<span ng-if="resource._view_.accIsSystemAdmin">*</span>
+		<span ng-if="resource._view_.accIsSysAdmin">*</span>
 	</span>
 </div>

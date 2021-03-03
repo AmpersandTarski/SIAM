@@ -14,8 +14,9 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
    INCLUDE "%path_to_siam_module%/SIAM_PF_Integration.adl"     -- Integration with code and quircks from the Prototype Framework.
    INCLUDE "%path_to_siam_module%/SIAM_Basics.adl"             -- This is the **Core functionality**: Accounts, Sessions, Roles, etc.
 
---[Optionally INCLUDE interface(s) for Developers] -- Ifc for inspecting SESSION, Accounts, Parties, Actors, Persons, Organizations and Roles.
+--[Optionally INCLUDE general interface(s), e.g. for Developers] -- Ifc for inspecting SESSION, Accounts, Parties, Actors, Persons, Organizations and Roles.
    INCLUDE "%path_to_siam_module%/SIAM_Developer.ifc" --# [ "NoMainDevIfc" ]
+   INCLUDE "%path_to_siam_module%/SIAM_Views.ifc"              -- Views, e.g. for showing Accounts.
 
 --[Optionally INCLUDE Account registration and management]
 -- INCLUDE "%path_to_siam_module%/SIAM_AccountRegUsingForm.adl"-- Create Account for a User (=Actor/Party pair) based on filling in a Form.
@@ -55,9 +56,9 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 --[SysAdmin account]
 -- Activate this rule if you want to ensure you have a SystemAdmin account
    ROLE ExecEngine MAINTAINS "Create SystemAdmin account if the default population doesn't have it"
-   RULE "Create SystemAdmin account if the default population doesn't have it": I[ONE] |- V;accIsSystemAdmin;V
+   RULE "Create SystemAdmin account if the default population doesn't have it": I[ONE] |- V;accIsSysAdmin;V
    VIOLATION (TXT "{EX} InsAtom;Account"
-             ,TXT "{EX} InsPair;accIsSystemAdmin;Account;_NEW;Account;_NEW"
+             ,TXT "{EX} InsPair;accIsSysAdmin;Account;_NEW;Account;_NEW"
              ,TXT "{EX} InsPair;accUserid;Account;_NEW;Userid;admin"
              ,TXT "{EX} InsPair;accPassword;Account;_NEW;Password;admin"
              ) --}

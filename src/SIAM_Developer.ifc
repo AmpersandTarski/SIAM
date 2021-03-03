@@ -67,7 +67,7 @@ INTERFACE "[SIAM_Accounts_Dev]": V[ONE*Account] cRud BOX <TABLE sortable>
    , "IsInitialized": accIsInitialized cRud
    , "IsActive": accIsActive cRud
    , "IsPrsnl": accIsPersonal cRud
-   , "SysAdm": accIsSystemAdmin cRud
+   , "SysAdm": accIsSysAdmin cRud
    , "PartyAdmin": accIsPartyAdmin cRud
    , "UserIfc": accUserIfc cRud
    , "IsGodAccount": accIsGodAccount cRud

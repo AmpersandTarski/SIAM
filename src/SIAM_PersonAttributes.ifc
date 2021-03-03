@@ -6,30 +6,30 @@ INCLUDE "./SIAM_PersonAttributes.adl"
 personEdit :: Person * Person [PROP] -- Applications may specify rules for this property to prevent inadvertent editing.
 
 INTERFACE "Person": I[Person] cRud BOX <RAW form>
-    [ "Register": I-personRef;personRef~ BOX <FORM>
+    [ "Register": I-personRef;personRef~ cRud BOX <FORM>
         [ "Short name": personRef cRUd
         , "First Name": personFirstName cRUd
         , "Middle Name": personMiddleName cRUd
         , "Last Name": personLastName cRUd
         , "Initials": personInitials cRUd
         ]
-    , "Show": (I-personEditing) /\ personRef;personRef~ BOX <FORM>
+    , "Show": (I-personEditing) /\ personRef;personRef~ cRud BOX <FORM>
         [ "Short name": personRef cRud
         , "First Name": personFirstName cRud
         , "Middle Name": personMiddleName cRud
         , "Last Name": personLastName cRud
         , "Initials": personInitials cRud
         ]
-    , "Edit": personEditing /\ personRef;personRef~ BOX <FORM>
+    , "Edit": personEditing /\ personRef;personRef~ cRud BOX <FORM>
         [ "Short name": personRef cRUd
         , "First Name": personFirstName cRUd
         , "Middle Name": personMiddleName cRUd
         , "Last Name": personLastName cRUd
         , "Initials": personInitials cRUd
         ]
-    , "Full name": I BOX <FORM> [ "Full name": personFullName cRud ]
-    , "Specify personRef": I-personRef;personRef~ BOX <FORM> [ "msg": TXT "Please specify the person's short name." ]
-    , "personRef not INJ": personRef /\ -I;personRef BOX <FORM> [ "msg": TXT "The person's short name isn't unique. Please specify another short name." ]
+    , "Full name": I cRud BOX <FORM> [ "Full name": personFullName cRud ]
+    , "Specify personRef": I-personRef;personRef~ cRud BOX <FORM> [ "msg": TXT "Please specify the person's short name." ]
+    , "personRef not INJ": personRef /\ -I;personRef cRud BOX <FORM> [ "msg": TXT "The person's short name isn't unique. Please specify another short name." ]
     ]
 
 ENDCONTEXT

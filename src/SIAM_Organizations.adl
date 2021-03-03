@@ -24,6 +24,7 @@ VIOLATION (TXT "{EX} InsPair;partyRef;Party;", SRC I[Party], TXT ";PartyRef;", T
 
 --[Generic Organization attributes]
 
+CLASSIFY OrgFullName ISA IdentRef -- This allows to test/ensure e.g. orgFullName |- orgRef
 orgFullName :: Organization * OrgFullName [UNI] -- the long (full) name by which the organization may be identified
 orgLogoURL  :: Organization * URL [UNI] -- URL at which the logo of the organization can be found
 
