@@ -36,7 +36,7 @@ VIOLATION (TXT "{EX} InsPair;accPassword;Account;", SRC I, TXT ";Password;", TGT
 
 --[Account interfaces]
 VIEW AccountUserid: Account { "id": accUserid } ENDVIEW
-INTERFACE "Account Mgt" FOR "AccAdmin": sessionManageableAccounts cRud BOX <TABLE sortable>
+INTERFACE "Account Mgt" FOR "AccAdmin": sessionManageableAccounts cRuD BOX <TABLE sortable>
    [ "Userid": I cRud <AccountUserid> LINKTO INTERFACE "Account"
    , "Actor": accActorRef cRud
    , "Party": accPartyRef cRud
@@ -75,10 +75,10 @@ INTERFACE "My Account" FOR User: "_SESSION";sessionAccount cRud BOX <FORM>
 
 --[Roles]--
 
-INTERFACE "Role Mgt" FOR "AccAdmin": V[SESSION*Role] CRud BOX <TABLE sortable>
+INTERFACE "Role Mgt" FOR "AccAdmin": V[SESSION*Role] cRud BOX <TABLE sortable>
    [ "Role": I cRud
    , "Assigned to": accAllowedRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
-   , "Assign to": I[Role] cRud BOX <OBJECTDROPDOWN>
+   , "Assign to": I[Role]-systemRole cRud BOX <OBJECTDROPDOWN>
       [ selectfrom: -I;accAllowedRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
       , setrelation: accAllowedRoles~ cRUd -- If the relation is [UNI], a newly selected object will replace the existing population.
       , instruction: TXT "Select account(s) for this role" -- Text that shows when nothing is selected yet
@@ -86,7 +86,7 @@ INTERFACE "Role Mgt" FOR "AccAdmin": V[SESSION*Role] CRud BOX <TABLE sortable>
 --    , deselectflag: deselectEventFlag cRUd -- [PROP]-type relation that toggles when NO OBJECT is selected
       ]
    , "Default for": accDefaultRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
-   , "Make default for": I[Role] cRud BOX <OBJECTDROPDOWN>
+   , "Make default for": I[Role]-systemRole cRud BOX <OBJECTDROPDOWN>
       [ selectfrom: -I;accDefaultRoles~;(I /\ sessionManageableAccounts~;"_SESSION";sessionManageableAccounts) cRud <AccountTwoLineSummary>
       , setrelation: accDefaultRoles~ cRUd -- If the relation is [UNI], a newly selected object will replace the existing population.
       , instruction: TXT "Select account(s) for this default role" -- Text that shows when nothing is selected yet

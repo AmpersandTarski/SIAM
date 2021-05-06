@@ -8,6 +8,7 @@ CONTEXT SIAMv4_0 IN ENGLISH -- SIAM: Sessions, Identity- and Access Management
 -- POPULATION ownerRef   CONTAINS [ ("I_Am","<PartyRef>")]     -- The name of the Party that (supposedly) owns the system.
 -- POPULATION actorRef   CONTAINS [ ("I_Am","<ActorRef>")]     -- The name that can be used to refer to the system.
 -- POPULATION myLogofile CONTAINS [ ("I_Am","<Fileid>") ]      -- id of the file that can be used to show the system's logo.
+-- POPULATION myAutoAccRegPref CONTAINS [ ("I_Am","I_Am") ]    -- Allow registration of Accounts by users (presenting a credential)
 -- Other attributes may be associated with `I_Am`, for purposes other than SIAM.
 
 --[Always INCLUDE the basics]

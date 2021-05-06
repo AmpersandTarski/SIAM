@@ -9,14 +9,6 @@ username and password.
 
 INCLUDE "./SIAM_AccountRegUsingForm.adl"
 
-VIEW AccountOfParty: Account
-{ "accIsNotPersonal": I - accActorRef;I[IdentRef];accPartyRef~
-, "accIsPartyAdmin": accIsPartyAdmin
-, "accIsSysAdmin": accIsSysAdmin
-, "accActorRef": accActorRef
-, "accPartyRef": accPartyRef
-} HTML TEMPLATE "View-AccountOfParty.html" ENDVIEW
-
 INTERFACE "Login" FOR Anonymous: sessionIsAnon cRud BOX <RAW>
 --$This section allows users to login or register themselves
    [ "Login bar": I-sessionAccRegForm;sessionAccRegForm~ cRud BOX <TABLE hideOnNoRecords>

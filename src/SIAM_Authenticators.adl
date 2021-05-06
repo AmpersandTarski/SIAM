@@ -29,7 +29,7 @@ froleAllowedRoles :: FuncRole * Role -- the set of (allowed system) roles that a
 CONCEPT RepView "a set of Attributes, defined and controlled by a specific Party, for characterizing a specific Actor that works on its behalf"
 
 repvParty     :: RepView * Party [SUR,UNI,TOT] -- Party on behalf of which the Actor that instantiates this RepView, works.
-repvRef      :: RepView * RepRef [UNI] -- Human readable text that the Party uses to refer to the representative.
+repvRef       :: RepView * RepRef [UNI] -- Human readable text that the Party uses to refer to the representative.
 repvFuncRole  :: RepView * FuncRole -- Set of functional roles (not: account roles!) that the Rep may perform.
 repvAuthMeans :: RepView * AuthMeans -- Means by which an Actor can be authenitcated as instantiating this representative.
 repvIsForMgr  :: RepView * RepView [PROP] -- RepView is defined for (one of) the Party's managers (authoritative representative)

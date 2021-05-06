@@ -137,6 +137,14 @@ To this end, the concept `I_Am` is introduced, which ISA `Actor`.
 Details can be found in the file: "SIAM_Who_I_Am.adl".
 The idea is that an application's loader file statically populates the appropriate relations.-}
 
+VIEW AccountOfParty: Account
+{ "accIsNotPersonal": I - accActorRef;I[IdentRef];accPartyRef~
+, "accIsPartyAdmin": accIsPartyAdmin
+, "accIsSysAdmin": accIsSysAdmin
+, "accActorRef": accActorRef
+, "accPartyRef": accPartyRef
+} HTML TEMPLATE "View-AccountOfParty.html" ENDVIEW
+
 --[Accounts: basic attributes]-------------------------------------------------------------
 CLASSIFY  Userid ISA IdentRef
 accUserid   :: Account * Userid [INJ,UNI] -- The name/identifier to refer to the Account itself.
