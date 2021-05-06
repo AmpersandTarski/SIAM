@@ -2,12 +2,14 @@
 
 The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.git**.
 
-Last update: RJ/20210120
+Last update: RJ/20210506
 
 ## Unversioned updates
 - OrgFullName is now an IdentRef, enabling it to be used as an OrgRef as well
 - file `SIAM_Views.ifc` has been added; it contains handy views (none of them being default views)
 - SystemAdmin is renamed to SysAdmin
+- Account mgt interfaces have been updated to not show systemroles
+- Preparation for automatic account creation preferences (for use in combination with SSI credentials)
 
 ## v4.1.0
 - Added `VIEW "ActorAndOwner"` for Actors. It shows `{actorRef} ({ownerRef})`
