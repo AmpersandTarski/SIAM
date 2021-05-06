@@ -5,6 +5,9 @@ The authoratative source for this module is on **git@ci.tno.nl:ampersand/ssif.gi
 Last update: RJ/20210506
 
 ## Unversioned updates
+
+## v4.1.0
+
 - OrgFullName is now an IdentRef, enabling it to be used as an OrgRef as well
 - file `SIAM_Views.ifc` has been added; it contains handy views (none of them being default views)
 - SystemAdmin is renamed to SysAdmin
@@ -12,19 +15,27 @@ Last update: RJ/20210506
 - Preparation for automatic account creation preferences (for use in combination with SSI credentials)
 
 ## v4.1.0
+
 - Added `VIEW "ActorAndOwner"` for Actors. It shows `{actorRef} ({ownerRef})`
 - SystemAdmin account is always active
 - Fix for https://github.com/AmpersandTarski/RAP/issues/113
+
 ## v4.0.6
+
 - SIAM_LoginForDevelopers now uses the new template 'View-AccountOfParty.html'
 - accParty, accPartyRef are computed from accPartyRef and accParty respectively (if there is no ambiguity there)
 - accActor, accActorRef are computed from accActorRef and accActor respectively (if there is no ambiguity there)
+ 
 ## v4.0.5
+
 - fixed performance issue in 'personRef' testing invariant
+
 ## v4.0.4
 - bugs fixed in computation of `sessionActor` and `sessionParty`
 - minor changes in developer interfaces
+
 ## v4.0.3
+
 - `accIsPartyAdmin` property is set for Accounts that are AccAdmins for their (same) accParty.
 - `accIsSystemAdmin` property is set for AccAdmins that are AccAdmins for the (I_Am) system.
 - `sessionManageableAccounts` is the set of Accounts that can be managed in a session.
@@ -35,15 +46,18 @@ Last update: RJ/20210506
 - `accIsPersonal` and `sessionIsPersonal` properties are added that flag whether an Account or SESSION is of a Person.
 
 ## v4.0.2
+
 - `partyRef`, and `actorRef` are NOT [INJ], but "SIAMv4_Module-example.adl" has default rules for this that can be commented out if needed.
 - The individual parts of the Developer interface can now also be called individually by applications.
 
 ## v4.0.1
+
 - `I_Am` (i.e. the Concept/Atom that represents the system being created) has become an Actor; therefor:
   - relation `myOwnName` no longer exists and must be replaced with `(I[I_Am];actorRef)`
   - relation `myOwningParty` no longer exists and must be replaced with `(I[I_Am];ownerRef)`
 - Developer interface is restructured so it can be called by applications
 - minor bugfixes
+
 ## New Features and changes in SIAM v 4.0 (conceptual changes have been made)
 
 Many things have changed in this version of SIAM, most notably:
